@@ -21,6 +21,7 @@ export class UserController {
 
   @Get()
   async getAllUsers() {
+    console.log('fuichamado');
     return this.userService.getAllUsers();
   }
 
@@ -28,6 +29,7 @@ export class UserController {
   async createUser(
     @Body() createUserDto: { name: string; email: string; password: string },
   ) {
+    console.log('fuichamado');
     return this.userService.createUser(createUserDto);
   }
 

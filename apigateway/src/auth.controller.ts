@@ -1,4 +1,11 @@
-import { Controller, Post, Body, Logger, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Logger,
+  UseGuards,
+  Version,
+} from '@nestjs/common';
 import { SkipThrottle, Throttle, ThrottlerGuard } from '@nestjs/throttler';
 import axios from 'axios';
 
@@ -8,6 +15,7 @@ export class AuthController {
   private readonly logger = new Logger(AuthController.name);
   private readonly authServiceUrl = 'http://localhost:3001/auth';
 
+  @Version('1') // Define a versão 1 do endpoint
   @Post('login')
   @SkipThrottle()
   async login(@Body() loginDto: { email: string; password: string }) {
@@ -24,6 +32,7 @@ export class AuthController {
     }
   }
 
+  @Version('1') // Define a versão 1 do endpoint
   @Post('register')
   @Throttle({ default: { limit: 7, ttl: 60000 } })
   async register(

@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Logger } from '@nestjs/common';
+import { Controller, Post, Body, Logger, Version } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { logger } from './logger';
@@ -9,6 +9,7 @@ export class AuthController {
 
   constructor(private readonly authService: AuthService) {}
 
+  @Version('1')
   @Post('register')
   async register(@Body() createUserDto: CreateUserDto) {
     logger.info('(auth-service): User registration request received', {
@@ -17,6 +18,7 @@ export class AuthController {
     return this.authService.register(createUserDto);
   }
 
+  @Version('1')
   @Post('login')
   async login(@Body() loginDto: { email: string; password: string }) {
     logger.info(`(auth-service): Login attempt for email: ${loginDto.email}`, {

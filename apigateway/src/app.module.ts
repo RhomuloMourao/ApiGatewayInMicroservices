@@ -15,6 +15,7 @@ import { JwtAuthMiddleware } from './jwt-auth.middleware';
 
 @Module({
   imports: [
+    HttpModule,
     CacheModule.register({
       ttl: 5, // 5 segundos de TTL para cache
       max: 100, // Número máximo de itens no cache
@@ -44,8 +45,8 @@ export class AppModule implements NestModule {
       .apply(JwtAuthMiddleware) // Aplica o middleware de autenticação
       .exclude(
         // Exclui as rotas de login e register
-        { path: 'auth/register', method: RequestMethod.POST },
-        { path: 'auth/login', method: RequestMethod.POST },
+        { path: 'v1/auth/register', method: RequestMethod.POST },
+        { path: 'v1/auth/login', method: RequestMethod.POST },
       )
       .forRoutes('*'); // Aplica para todas as outras rotas
   }

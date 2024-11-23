@@ -6,6 +6,7 @@ import {
   Param,
   Delete,
   Logger,
+  Version,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
@@ -17,6 +18,7 @@ export class OrderController {
 
   constructor(private readonly orderService: OrderService) {}
 
+  @Version('1')
   @Post()
   async createOrder(@Body() createOrderDto: CreateOrderDto) {
     logger.info('(order-service): Create order request received', {
@@ -25,6 +27,7 @@ export class OrderController {
     return this.orderService.createOrder(createOrderDto);
   }
 
+  @Version('1')
   @Get(':id')
   async getOrder(@Param('id') id: string) {
     logger.info(`(order-service): Get order request for ID: ${id}`, {

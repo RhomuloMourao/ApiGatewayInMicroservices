@@ -7,6 +7,7 @@ import {
   Body,
   Logger,
   UseGuards,
+  Version,
 } from '@nestjs/common';
 import { SkipThrottle, Throttle, ThrottlerGuard } from '@nestjs/throttler'; // Guard para Throttling
 import { CacheTTL } from '@nestjs/cache-manager'; // Decorador CacheTTL
@@ -18,6 +19,7 @@ export class OrderController {
   private readonly logger = new Logger(OrderController.name);
   private readonly orderServiceUrl = 'http://localhost:3003/orders'; // URL do Order Service
 
+  @Version('1')
   @Post()
   @Throttle({ default: { limit: 6, ttl: 60000 } })
   async createOrder(
@@ -36,6 +38,7 @@ export class OrderController {
     }
   }
 
+  @Version('1')
   @Get(':id')
   @CacheTTL(60)
   @Throttle({ default: { limit: 7, ttl: 60000 } })
@@ -50,6 +53,7 @@ export class OrderController {
     }
   }
 
+  @Version('1')
   @Get()
   @CacheTTL(60)
   @Throttle({ default: { limit: 7, ttl: 60000 } })
@@ -64,6 +68,7 @@ export class OrderController {
     }
   }
 
+  @Version('1')
   @Delete(':id')
   @SkipThrottle()
   async deleteOrder(@Param('id') id: string) {
